@@ -92,14 +92,16 @@ def main(config):
 
             # print statistics
             running_loss += loss.item()
-            if i % 50 == 49:    # print every 200 mini-batches
-                print(f'[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 50    :.3f}')
-                wandb.log({"loss": running_loss/50})
-                running_loss = 0.0
+        avg_loss = running_loss / len(train_loader)
+        print(f'Epoch [{epoch + 1}/{epochs}], Loss: {avg_loss:.3f}')
 
+        #SAVE THE MODEL EACH EPOCH!
+        PATH = f'../Defocus_Classifier_with_pth_NOT_ON_GIT/15_01_regressor_CNN_EPOCH:{epoch}.pth'
+        torch.save(regressor.state_dict(), PATH)        
+        
         # WILL ADD WANDB LOG OF DIVERGENCE FROM VALIDATION TEST BELOW:
-        total = 0
-        counter = 0
+        total1 = 0
+        counter1 = 0
         with torch.no_grad():
             print('TRAIN SET ACCURACY:')
             for data in train_loader:
@@ -108,15 +110,15 @@ def main(config):
                 # calculate outputs by running images through the network
                 predicted = regressor(particle)
                 #counter += torch.sum(torch.abs(defocus - predicted)).item()           
-                total += defocus.size()[0]
+                total1 += defocus.size()[0]
                 for i in range(defocus.size()[0]):
-                    counter += (abs(defocus[i].item() - predicted[i].item()))
+                    counter1 += (abs(defocus[i].item() - predicted[i].item()))
                     #print(defocus[i].item(), predicted[i].item())
-                    #print('COUNTER:',counter,'TOTAL:',total)  
-            print("Average divergence from actual value FOR THE TRAIN SET(!!!):", counter/total)
-            wandb.log({"Average divergence - train_set": counter/total})
-            total=0
-            counter=0
+                    #print('COUNTER:',counter1,'TOTAL:',total1)  
+            print("Average divergence from actual value FOR THE TRAIN SET(!!!):", counter1/total1)
+            
+            total2=0
+            counter2=0
 
             print('NOW FOR THE TEST SET:')
             for data in test_loader:
@@ -125,14 +127,16 @@ def main(config):
                 # calculate outputs by running images through the network
                 predicted = regressor(particle)
                 #counter += torch.sum(torch.abs(defocus - predicted)).item()           
-                total += defocus.size()[0]
+                total2 += defocus.size()[0]
                 for i in range(defocus.size()[0]):
-                    counter += (abs(defocus[i].item() - predicted[i].item()))
+                    counter2 += (abs(defocus[i].item() - predicted[i].item()))
                     #print(defocus[i].item(), predicted[i].item())
-                    #print('COUNTER:',counter,'TOTAL:',total)
-            print("Average divergence from actual value for the test set:", counter/total)
-            wandb.log({"Average divergence - test_set": counter/total})
-            
+                    #print('COUNTER:',counter2,'TOTAL:',total2)
+            print("Average divergence from actual value for the test set:", counter2/total2)
+            wandb.log({"Average divergence - train_set": counter1/total1, "Average divergence - test_set": counter2/total2, "loss": avg_loss})
+            running_loss = 0.0
+        
+    
     print('Finished Training')
         
     '''
@@ -147,9 +151,8 @@ def main(config):
     print('Predicted: ', ' '.join(f'{predicted[j]:5d}' for j in range(32)))
     '''
     
-    #TURNED SAVING OFF FOR NOW!
-    PATH = '../Defocus_Classifier_with_pth_NOT_ON_GIT/15_01_regressor_CNN.pth'
-    torch.save(regressor.state_dict(), PATH)
+
+
     
     total = 0
     counter = 0
