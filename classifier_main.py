@@ -107,7 +107,7 @@ def main(config):
     predicted = predicted.long()
     print('Predicted: ', ' '.join(f'{predicted[j]:5d}' for j in range(32)))
 
-    PATH = './classifier_CNN.pth'
+    PATH = '../Defocus_Classifier_with_pth_NOT_ON_GIT/15_01_classifier_CNN.pth'
     torch.save(classifier.state_dict(), PATH)
 
 if __name__ == "__main__":
