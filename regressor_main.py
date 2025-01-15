@@ -97,7 +97,43 @@ def main(config):
                 wandb.log({"loss": running_loss/50})
                 running_loss = 0.0
 
-    print('Finished Training')
+        # WILL ADD WANDB LOG OF DIVERGENCE FROM VALIDATION TEST BELOW:
+        total = 0
+        counter = 0
+        with torch.no_grad():
+            print('TRAIN SET ACCURACY:')
+            for data in train_loader:
+                particle, defocus = data
+                defocus = (defocus - 230) / (328 - 230)
+                # calculate outputs by running images through the network
+                predicted = regressor(particle)
+                #counter += torch.sum(torch.abs(defocus - predicted)).item()           
+                total += defocus.size()[0]
+                for i in range(defocus.size()[0]):
+                    counter += (abs(defocus[i].item() - predicted[i].item()))
+                    #print(defocus[i].item(), predicted[i].item())
+                    #print('COUNTER:',counter,'TOTAL:',total)  
+            print("Average divergence from actual value FOR THE TRAIN SET(!!!):", counter/total)
+            wandb.log({"Average divergence - train_set": counter/total)
+            total=0
+            counter=0
+
+            print('NOW FOR THE TEST SET:')
+            for data in test_loader:
+                particle, defocus = data
+                defocus = (defocus - 230) / (328 - 230)
+                # calculate outputs by running images through the network
+                predicted = regressor(particle)
+                #counter += torch.sum(torch.abs(defocus - predicted)).item()           
+                total += defocus.size()[0]
+                for i in range(defocus.size()[0]):
+                    counter += (abs(defocus[i].item() - predicted[i].item()))
+                    #print(defocus[i].item(), predicted[i].item())
+                    #print('COUNTER:',counter,'TOTAL:',total)
+            print("Average divergence from actual value for the test set:", counter/total)
+            print('Finished Training')
+            wandb.log({"Average divergence - test_set": counter/total)
+
     '''
     dataiter = iter(test_loader)
     particle, defocus = next(dataiter)
@@ -111,8 +147,8 @@ def main(config):
     '''
     
     #TURNED SAVING OFF FOR NOW!
-    #PATH = './regressor_CNN.pth'
-    #torch.save(regressor.state_dict(), PATH)
+    PATH = '../Defocus_Classifier_with_pth_NOT_ON_GIT/15_01_regressor_CNN.pth'
+    torch.save(regressor.state_dict(), PATH)
     
     total = 0
     counter = 0
