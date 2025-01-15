@@ -34,4 +34,4 @@ wandb:
   project: "Defocus-Classifier"
   architecture: "CNN regressor, MeanSquaredErrorLoss"
   dataset: "10K_Particles"
-  run_id: '2025 CNN regressor less hyperparameters, MeanSquaredErrorLoss___lr=1e-4, 50 EPOCHS normalization and weight init_WITH check for overfit'
+  run_id: '5 convs CNN regressor less hyperparameters, MeanSquaredErrorLoss___lr=1e-4, 50 EPOCHS normalization and weight init_WITH check for overfit'
