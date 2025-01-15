@@ -96,7 +96,7 @@ def main(config):
         print(f'Epoch [{epoch + 1}/{epochs}], Loss: {avg_loss:.3f}')
 
         #SAVE THE MODEL EACH EPOCH!
-        PATH = f'../Defocus_Classifier_with_pth_NOT_ON_GIT/15_01_regressor_CNN_EPOCH:{epoch}.pth'
+        PATH = f'../Defocus_Classifier_with_pth_NOT_ON_GIT/15_01_regressor_CNN_EPOCH_{epoch}.pth'
         torch.save(regressor.state_dict(), PATH)        
         
         # WILL ADD WANDB LOG OF DIVERGENCE FROM VALIDATION TEST BELOW:
