@@ -131,9 +131,10 @@ def main(config):
                     #print(defocus[i].item(), predicted[i].item())
                     #print('COUNTER:',counter,'TOTAL:',total)
             print("Average divergence from actual value for the test set:", counter/total)
-            print('Finished Training')
             wandb.log({"Average divergence - test_set": counter/total})
-
+            
+    print('Finished Training')
+        
     '''
     dataiter = iter(test_loader)
     particle, defocus = next(dataiter)
