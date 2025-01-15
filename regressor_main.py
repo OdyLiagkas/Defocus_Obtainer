@@ -114,7 +114,7 @@ def main(config):
                     #print(defocus[i].item(), predicted[i].item())
                     #print('COUNTER:',counter,'TOTAL:',total)  
             print("Average divergence from actual value FOR THE TRAIN SET(!!!):", counter/total)
-            wandb.log({"Average divergence - train_set": counter/total)
+            wandb.log({"Average divergence - train_set": counter/total})
             total=0
             counter=0
 
@@ -132,7 +132,7 @@ def main(config):
                     #print('COUNTER:',counter,'TOTAL:',total)
             print("Average divergence from actual value for the test set:", counter/total)
             print('Finished Training')
-            wandb.log({"Average divergence - test_set": counter/total)
+            wandb.log({"Average divergence - test_set": counter/total})
 
     '''
     dataiter = iter(test_loader)
