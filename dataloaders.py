@@ -33,7 +33,8 @@ class CustomImageDataset(Dataset):
             if self.transform:
                 image = self.transform(image)
             else:
-                image = (np.array(image) / 255)[None, :, :]  # Normalize to [0, 1]
+                image = transforms.ToTensor()(image)
+                #image = (np.array(image) / 255)[None, :, :]  # Normalize to [0, 1]
 
             image = (image - image.mean())/ image.std()  # added standardization per image!!!                     !!!
             
