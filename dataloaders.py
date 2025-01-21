@@ -35,6 +35,8 @@ class CustomImageDataset(Dataset):
             else:
                 image = (np.array(image) / 255)[None, :, :]  # Normalize to [0, 1]
 
+            image = (image - image.mean())/ image.std()  # added standardization per image!!!                     !!!
+            
             self.particles.append(np.array(image))
             if(type_=='classes'):
                 self.defocus.append(defocus_class)
@@ -68,11 +70,13 @@ def get_dataloader(paths_to_data, batch_size, standarization=False,type_='classe
         transforms.ToTensor()
     ])
     transform = None
+
+    '''
     transform = transforms.Compose([
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.5], std=[0.5])  # Update based on dataset stats
+    transforms.Normalize(mean=[0.5], std=[0.5])  
 ])    
-
+'''
     # Use the first path from the list of data paths (can be adjusted if multiple datasets are needed)
     selected_path = paths_to_data[0]
 
