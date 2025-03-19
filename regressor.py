@@ -6,12 +6,12 @@ class Regressor(nn.Module):
     def __init__(self):
         super(Regressor, self).__init__()
         # Convolutional layers
-        # ORIGINAL: 1x200x200
-        self.conv1 = nn.Conv2d(1, 4, kernel_size=3, padding=1)  #4x100x100
-        self.conv2 = nn.Conv2d(4, 8, kernel_size=3, padding=1)  #8x50x50
-        self.conv3 = nn.Conv2d(8, 16, kernel_size=3, padding=1)  #16x25x25
-        self.conv4 = nn.Conv2d(16, 32, kernel_size=3, padding=1)   #32x12x12
-        self.conv5 = nn.Conv2d(32, 64, kernel_size=3, padding=1)     #64x6x6
+        # ORIGINAL: 1x128x128
+        self.conv1 = nn.Conv2d(1, 4, kernel_size=3, padding=1)  #4x64x64
+        self.conv2 = nn.Conv2d(4, 8, kernel_size=3, padding=1)  #8x32x32
+        self.conv3 = nn.Conv2d(8, 16, kernel_size=3, padding=1)  #16x16x16
+        self.conv4 = nn.Conv2d(16, 32, kernel_size=3, padding=1)   #32x8x8
+        self.conv5 = nn.Conv2d(32, 64, kernel_size=3, padding=1)     #64x4x4
 
         # Pooling layer
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2)  # Halves spatial dimensions
@@ -20,7 +20,7 @@ class Regressor(nn.Module):
         self.flatten = nn.Flatten()
 
         # Fully connected layers
-        self.fc1 = nn.Linear(64*6*6, 256)
+        self.fc1 = nn.Linear(64*4*4, 256)
         self.fc2 = nn.Linear(256, 128)
         self.fc3 = nn.Linear(128, 1) # Output a single value
 
