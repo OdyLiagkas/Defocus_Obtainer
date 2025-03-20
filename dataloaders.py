@@ -34,8 +34,8 @@ class CustomImageDataset(Dataset):
                 parts = line.split()
                 if len(parts) > 6:  # Ensure there are enough parts
                     try:
-                        value = int(float(parts[6])*1000000)  # Extract the value after the sixth space and multiply
-                        self.defocus.append(value)
+                        value = float(parts[6])  # Extract the value after the sixth space which is the defocus in the .star
+                        self.defocus.append(int(value))
                     except ValueError:
                         pass  # Ignore lines where conversion fails
         
