@@ -78,7 +78,7 @@ def main(config):
             particle, defocus = data
             particle=particle.float()
             defocus = defocus.long()
-            defocus = (defocus - 7599081993) / (45410556793 - 7599081993)  # NORMALIZATION FORMULA #min-max scaling to bring values to 0-1
+            defocus = (defocus - 7599) / (45410 - 7599)  # NORMALIZATION FORMULA #min-max scaling to bring values to 0-1
             defocus = defocus.unsqueeze(1)  # Shape: [bs, 1]  FOR MSE LOSS!
 
             # zero the parameter gradients
@@ -106,7 +106,7 @@ def main(config):
             print('TRAIN SET ACCURACY:')
             for data in train_loader:
                 particle, defocus = data
-                defocus = (defocus - 7599081993) / (45410556793 - 7599081993)  # NORMALIZATION FORMULA
+                defocus = (defocus - 7599) / (45410 - 7599)  # NORMALIZATION FORMULA
                 # calculate outputs by running images through the network
                 predicted = regressor(particle)
                 #counter += torch.sum(torch.abs(defocus - predicted)).item()           
@@ -123,7 +123,7 @@ def main(config):
             print('NOW FOR THE TEST SET:')
             for data in test_loader:
                 particle, defocus = data
-                defocus = (defocus - 7599081993) / (45410556793 - 7599081993)  # NORMALIZATION FORMULA
+                defocus = (defocus - 7599) / (45410 - 7599)  # NORMALIZATION FORMULA
                 # calculate outputs by running images through the network
                 predicted = regressor(particle)
                 #counter += torch.sum(torch.abs(defocus - predicted)).item()           
@@ -160,7 +160,7 @@ def main(config):
         print('TRAIN SET ACCURACY:')
         for data in train_loader:
             particle, defocus = data
-            defocus = (defocus - 7599081993) / (45410556793 - 7599081993)  # NORMALIZATION FORMULA
+            defocus = (defocus - 7599) / (45410 - 7599)  # NORMALIZATION FORMULA
             # calculate outputs by running images through the network
             predicted = regressor(particle)
             #counter += torch.sum(torch.abs(defocus - predicted)).item()           
@@ -176,7 +176,7 @@ def main(config):
         print('NOW FOR THE TEST SET:')
         for data in test_loader:
             particle, defocus = data
-            defocus = (defocus - 7599081993) / (45410556793 - 7599081993)  # NORMALIZATION FORMULA
+            defocus = (defocus - 7599) / (45410 - 7599)  # NORMALIZATION FORMULA
             # calculate outputs by running images through the network
             predicted = regressor(particle)
             #counter += torch.sum(torch.abs(defocus - predicted)).item()           
