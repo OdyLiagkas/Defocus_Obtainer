@@ -79,7 +79,8 @@ class CustomImageDataset(Dataset):
 
     def __getitem__(self, idx):
         defocus_tensor = torch.tensor(self.defocus[idx], dtype=torch.long)
-        return self.particles[idx],defocus_tensor
+        return torch.tensor(self.particles[idx], dtype=torch.float32), defocus_tensor
+
 
 def get_dataloader(paths_to_data, batch_size, standarization=False,type_='classes',  train_ratio=0.8):
     """Loads datasets from the provided list of paths.
